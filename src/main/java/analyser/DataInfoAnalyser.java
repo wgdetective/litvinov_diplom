@@ -1,5 +1,8 @@
 package analyser;
 
+import model.OriginalOffer;
+import parser.OriginalOfferParseUtils;
+
 import java.io.File;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -12,21 +15,24 @@ import java.util.function.BiFunction;
 public class DataInfoAnalyser implements Analyser {
     private final Set<String> allocations = new HashSet<>();
     private LocalDate minStartDate;
-    private final Set<String> flights = new HashSet<>();
+    private boolean diffStartDate;
 
     @Override
     public BiFunction<String, File, Object> initLineProcessor() {
         allocations.clear();
         minStartDate = LocalDate.now();
-        flights.clear();
+        diffStartDate = false;
         return (line, file) -> {
-            final String[] split = line.split(";");
-            allocations.add(split[0]);
-            final LocalDate startDate = LocalDate.parse(split[4]);
+            final OriginalOffer originalOffer = OriginalOfferParseUtils.parseOriginalFileLine(line);
+            allocations.add(originalOffer.getAllocation());
+            final LocalDate startDate = originalOffer.getStartDate();
             if (startDate.isBefore(minStartDate)) {
                 minStartDate = startDate;
             }
-            flights.add(split[16]);
+            if (!diffStartDate && !startDate.equals(originalOffer.getHotelStartDate())){
+                System.out.println(startDate + " " + originalOffer.getHotelStartDate());
+                diffStartDate = true;
+            }
             return null;
         };
     }
@@ -39,7 +45,7 @@ public class DataInfoAnalyser implements Analyser {
         return minStartDate;
     }
 
-    public Set<String> getFlights() {
-        return flights;
+    public boolean isDiffStartDate() {
+        return diffStartDate;
     }
 }

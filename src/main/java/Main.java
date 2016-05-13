@@ -1,11 +1,13 @@
 import analyser.DataInfoAnalyser;
 import analyser.LinesCounter;
+import analyser.NotChangingFieldsAnalyser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Wladimir Litvinov on 02.05.2016.
@@ -18,9 +20,17 @@ public class Main {
         writeToOneFile();
     }
 
+    private static void checkNotChangingFields() {
+        final NotChangingFieldsAnalyser notChangingFieldsAnalyser = new NotChangingFieldsAnalyser();
+        FilesProcessor.process(new File(FILES_PATH_ALL),
+                notChangingFieldsAnalyser.initLineProcessor());
+        final Map<String, Object> onlyOneValue = notChangingFieldsAnalyser.getResult();
+        onlyOneValue.forEach((key, value) -> System.out.println(key + " '" + value + "'"));
+    }
+
     private static void writeToOneFile() throws IOException {
         final DataTransformer dataTransformer = new DataTransformer();
-        dataTransformer.writeOriginalOffersToOneFile(new File(FILES_PATH_PACK1), new File("E:\\Stud\\dip\\test\\pack1.csv"), true);
+        dataTransformer.writeOffersV1ToOneFile(new File(FILES_PATH_PACK1), new File("E:\\Stud\\dip\\test\\pack1.csv"), true);
     }
 
     private static void getCommonMeta() {
@@ -34,6 +44,6 @@ public class Main {
         Collections.sort(allocations);
         System.out.println("dataInfoAnalyser.getAllocations() = " + allocations);
         System.out.println("dataInfoAnalyser.getMinStartDate() = " + dataInfoAnalyser.getMinStartDate());
-        System.out.println("dataInfoAnalyser.getFlights() = " + dataInfoAnalyser.getFlights());
+        System.out.println("dataInfoAnalyser.isDiffStartDate() = " + dataInfoAnalyser.isDiffStartDate());
     }
 }

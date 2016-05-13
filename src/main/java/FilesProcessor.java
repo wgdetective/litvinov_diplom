@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -41,10 +42,10 @@ public class FilesProcessor {
                     try {
                         function.apply(line, file);
                     } catch (Exception e) {
-                        LOGGER.severe("Problem with line: " + line);
                         LOGGER.severe("Problem with file: " + file.getPath());
-                        //LOGGER.log(Level.SEVERE, "", e);
-                        return;
+                        LOGGER.severe("Problem with line: " + line);
+                        //LOGGER.severe("Exception: " + e.getMessage() + "\n");
+                        LOGGER.log(Level.SEVERE, e.getMessage(), e);
                     }
                 }
             }

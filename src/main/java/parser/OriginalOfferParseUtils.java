@@ -1,6 +1,7 @@
 package parser;
 
 import model.OfferV1;
+import model.OfferV2;
 import model.OriginalOffer;
 
 import java.time.LocalDate;
@@ -12,6 +13,8 @@ import java.util.StringJoiner;
  * Created by Wladimir Litvinov on 13.05.2016.
  */
 public class OriginalOfferParseUtils {
+
+    public static final String DELIMITER = ",";
 
     public static OriginalOffer parseOriginalFileLine(final String line) {
         final String[] split = line.split(";");
@@ -74,37 +77,71 @@ public class OriginalOfferParseUtils {
         return joiner.toString();
     }
 
-    private static final LocalDate START_DATE = LocalDate.parse("2016-05-03");
+
 
     public static OfferV1 originalOfferToOfferV1(final OriginalOffer originalOffer) {
         final OfferV1 offer = new OfferV1();
         offer.setAllocation(originalOffer.getAllocation());
         offer.setPrice(originalOffer.getPrice());
-        offer.setStartDate(ChronoUnit.DAYS.between(START_DATE, originalOffer.getStartDate()));
+        //offer.setStartDate(ChronoUnit.DAYS.between(START_DATE, originalOffer.getStartDate()));
+        offer.setStartDate(originalOffer.getStartDate());
         offer.setDuration(originalOffer.getDuration());
         offer.setCityFrom(originalOffer.getCityFrom());
-        offer.setHotelDuration(originalOffer.getHotelDuration());
         offer.setCommonMealType(originalOffer.getCommonMealType());
         offer.setCommonRoomType(originalOffer.getCommonRoomType());
         offer.setCommonDestinationCode(originalOffer.getCommonDestinationCode());
         offer.setCommonHotelCode(originalOffer.getCommonHotelCode());
         offer.setCommonHotelCategory(originalOffer.getCommonHotelCategory());
+        offer.setDayOfWeek(originalOffer.getStartDate().getDayOfWeek().getValue());
         return offer;
     }
 
     public static String offerV1ToLine(final OfferV1 offer) {
-        final StringJoiner joiner = new StringJoiner(";");
+        final StringJoiner joiner = new StringJoiner(DELIMITER);
         joiner.add(offer.getAllocation());
         joiner.add(String.valueOf(offer.getPrice()));
         joiner.add(String.valueOf(offer.getStartDate()));
         joiner.add(String.valueOf(offer.getDuration()));
         joiner.add(String.valueOf(offer.getCityFrom()));
-        joiner.add(String.valueOf(offer.getHotelDuration()));
         joiner.add(String.valueOf(offer.getCommonMealType()));
         joiner.add(String.valueOf(offer.getCommonRoomType()));
         joiner.add(String.valueOf(offer.getCommonDestinationCode()));
         joiner.add(String.valueOf(offer.getCommonHotelCode()));
         joiner.add(String.valueOf(offer.getCommonHotelCategory()));
+        joiner.add(String.valueOf(offer.getDayOfWeek()));
+        return joiner.toString();
+    }
+
+    public static OfferV2 parseOfferV2(final String line) {
+        final OfferV2 offer = new OfferV2();
+        final String[] split = line.split(DELIMITER);
+        offer.setAllocation(split[0]);
+        offer.setPrice(Long.parseLong(split[1]));
+        offer.setStartDate(LocalDate.parse(split[2]));
+        offer.setDuration(Integer.parseInt(split[3]));
+        offer.setCityFrom(Integer.parseInt(split[4]));
+        offer.setCommonMealType(Integer.parseInt(split[5]));
+        offer.setCommonRoomType(Integer.parseInt(split[6]));
+        offer.setCommonDestinationCode(Integer.parseInt(split[7]));
+        offer.setCommonHotelCode(Integer.parseInt(split[8]));
+        offer.setCommonHotelCategory(Integer.parseInt(split[9]));
+        offer.setDayOfWeek(Integer.parseInt(split[10]));
+        return offer;
+    }
+
+    public static String offerV2ToLine(final OfferV2 offer) {
+        final StringJoiner joiner = new StringJoiner(DELIMITER);
+        joiner.add(offer.getAllocation());
+        joiner.add(String.valueOf(offer.getPrice()));
+        joiner.add(String.valueOf(offer.getStartDateLong()));
+        joiner.add(String.valueOf(offer.getDuration()));
+        joiner.add(String.valueOf(offer.getCityFrom()));
+        joiner.add(String.valueOf(offer.getCommonMealType()));
+        joiner.add(String.valueOf(offer.getCommonRoomType()));
+        joiner.add(String.valueOf(offer.getCommonDestinationCode()));
+        joiner.add(String.valueOf(offer.getCommonHotelCode()));
+        joiner.add(String.valueOf(offer.getCommonHotelCategory()));
+        joiner.add(String.valueOf(offer.getDayOfWeek()));
         return joiner.toString();
     }
 }

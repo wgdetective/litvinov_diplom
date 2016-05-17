@@ -8,15 +8,15 @@ import java.time.LocalDate;
 public class OfferV1 {
     private String allocation;
     private long price;
-    private long startDate;
+    private LocalDate startDate;
     private int duration;
     private int cityFrom;
-    private int hotelDuration;
     private int commonMealType;
     private int commonRoomType;
     private int commonDestinationCode;
     private int commonHotelCode;
     private int commonHotelCategory;
+    private int dayOfWeek;
 
     public String getAllocation() {
         return allocation;
@@ -34,11 +34,11 @@ public class OfferV1 {
         this.price = price;
     }
 
-    public long getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(final long startDate) {
+    public void setStartDate(final LocalDate startDate) {
         this.startDate = startDate;
     }
 
@@ -56,14 +56,6 @@ public class OfferV1 {
 
     public void setCityFrom(final int cityFrom) {
         this.cityFrom = cityFrom;
-    }
-
-    public int getHotelDuration() {
-        return hotelDuration;
-    }
-
-    public void setHotelDuration(final int hotelDuration) {
-        this.hotelDuration = hotelDuration;
     }
 
     public int getCommonMealType() {
@@ -104,5 +96,13 @@ public class OfferV1 {
 
     public void setCommonHotelCategory(final int commonHotelCategory) {
         this.commonHotelCategory = commonHotelCategory;
+    }
+
+    public int getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(final int dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 }

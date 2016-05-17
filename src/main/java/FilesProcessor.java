@@ -53,4 +53,48 @@ public class FilesProcessor {
             e.printStackTrace();
         }
     }
+
+
+    public static void deleteEmptyFilesAndDirs(final File file) throws FileNotFoundException {
+        if (file == null) {
+            return;
+        }
+        if (file.isDirectory()) {
+            deleteEmptyFilesAndDirsProcessDir(file);
+        } else {
+            deleteEmptyFilesAndDirsProcessDirsProcessFile(file);
+        }
+    }
+
+
+    private static void deleteEmptyFilesAndDirsProcessDir(final File directory) throws FileNotFoundException {
+        for (File file : directory.listFiles()) {
+            deleteEmptyFilesAndDirs(file);
+        }
+        if (directory.listFiles().length == 0){
+            directory.delete();
+        }
+    }
+
+    private static void deleteEmptyFilesAndDirsProcessDirsProcessFile(final File file) throws FileNotFoundException {
+        if (file.length() == 0) {
+            file.delete();
+            return;
+        }
+        final Scanner scanner = new Scanner(file);
+        final boolean empty = !readNextLine(scanner) || !readNextLine(scanner);
+        scanner.close();
+        if (empty){
+            file.delete();
+        }
+    }
+
+    private static boolean readNextLine(final Scanner scanner) {
+        if (scanner.hasNextLine()){
+            scanner.nextLine();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

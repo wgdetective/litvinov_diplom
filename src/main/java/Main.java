@@ -15,9 +15,18 @@ import java.util.Map;
 public class Main {
     private static final String FILES_PATH_ALL = "E:\\Stud\\dip\\latest";
     private static final String FILES_PATH_PACK1 = "E:\\Stud\\dip\\pack1";
+    private static final String FILES_PATH_PACK2 = "E:\\Stud\\dip\\pack2";
+    private static final String FILES_PATH_CONVERTED = "E:\\Stud\\dip\\converted";
+    private static final String FILES_PATH_MERGED = "E:\\Stud\\dip\\big_file.csv";
 
     public static void main(String[] args) throws IOException {
-        writeToOneFile();
+        writeToOneFile2();
+    }
+
+    private static void filterAndConvertPack() throws IOException {
+        final DataTransformer dataTransformer = new DataTransformer();
+        dataTransformer.filterAndConvert(new File(FILES_PATH_ALL), new File(FILES_PATH_CONVERTED), true);
+        FilesProcessor.deleteEmptyFilesAndDirs(new File(FILES_PATH_CONVERTED));
     }
 
     private static void checkNotChangingFields() {
@@ -31,6 +40,11 @@ public class Main {
     private static void writeToOneFile() throws IOException {
         final DataTransformer dataTransformer = new DataTransformer();
         dataTransformer.writeOffersV1ToOneFile(new File(FILES_PATH_PACK1), new File("E:\\Stud\\dip\\test\\pack1.csv"), true);
+    }
+
+    private static void writeToOneFile2() throws IOException {
+        final DataTransformer dataTransformer = new DataTransformer();
+        dataTransformer.writeOffersV2ToOneFile(new File(FILES_PATH_CONVERTED), new File(FILES_PATH_MERGED), true);
     }
 
     private static void getCommonMeta() {

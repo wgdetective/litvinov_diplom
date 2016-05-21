@@ -20,6 +20,7 @@ public class Main {
     private static final String FILES_PATH_MERGED = "E:\\Stud\\dip\\big_file.csv";
 
     public static void main(String[] args) throws IOException {
+        //filterAndConvertPack();
         writeToOneFile2();
     }
 
@@ -43,8 +44,8 @@ public class Main {
     }
 
     private static void writeToOneFile2() throws IOException {
-        final DataTransformer dataTransformer = new DataTransformer();
-        dataTransformer.writeOffersV2ToOneFile(new File(FILES_PATH_CONVERTED), new File(FILES_PATH_MERGED), true);
+        final DataTransformer dataTransformer = new DataTransformer(",");
+        dataTransformer.writeOffersV2ToOneFile(new File(FILES_PATH_PACK2), new File(FILES_PATH_MERGED), true);
     }
 
     private static void getCommonMeta() {

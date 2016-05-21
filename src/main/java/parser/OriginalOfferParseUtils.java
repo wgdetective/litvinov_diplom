@@ -129,10 +129,11 @@ public class OriginalOfferParseUtils {
         return offer;
     }
 
-    public static String offerV2ToLine(final OfferV2 offer) {
-        final StringJoiner joiner = new StringJoiner(DELIMITER);
-        joiner.add(offer.getAllocation());
+    public static String offerV2ToLine(final OfferV2 offer, final String delimiter) {
+        final StringJoiner joiner = new StringJoiner(delimiter);
+        joiner.add(String.valueOf(offer.getAllocationInt()));
         joiner.add(String.valueOf(offer.getPrice()));
+        joiner.add(String.valueOf(offer.getStartDate()));
         joiner.add(String.valueOf(offer.getStartDateLong()));
         joiner.add(String.valueOf(offer.getDuration()));
         joiner.add(String.valueOf(offer.getCityFrom()));
@@ -142,6 +143,7 @@ public class OriginalOfferParseUtils {
         joiner.add(String.valueOf(offer.getCommonHotelCode()));
         joiner.add(String.valueOf(offer.getCommonHotelCategory()));
         joiner.add(String.valueOf(offer.getDayOfWeek()));
+        //joiner.add(offer.getDomainId());
         return joiner.toString();
     }
 }

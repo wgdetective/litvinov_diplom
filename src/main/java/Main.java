@@ -16,12 +16,13 @@ public class Main {
     private static final String FILES_PATH_ALL = "E:\\Stud\\dip\\latest";
     private static final String FILES_PATH_PACK1 = "E:\\Stud\\dip\\pack1";
     private static final String FILES_PATH_PACK2 = "E:\\Stud\\dip\\pack2";
+    private static final String FILES_PATH_PACK3 = "E:\\Stud\\dip\\pack3";
     private static final String FILES_PATH_CONVERTED = "E:\\Stud\\dip\\converted";
     private static final String FILES_PATH_MERGED = "E:\\Stud\\dip\\big_file.csv";
 
     public static void main(String[] args) throws IOException {
         //filterAndConvertPack();
-        writeToOneFile2();
+        writeToOneFile3();
     }
 
     private static void filterAndConvertPack() throws IOException {
@@ -46,6 +47,11 @@ public class Main {
     private static void writeToOneFile2() throws IOException {
         final DataTransformer dataTransformer = new DataTransformer(",");
         dataTransformer.writeOffersV2ToOneFile(new File(FILES_PATH_PACK2), new File(FILES_PATH_MERGED), true);
+    }
+
+    private static void writeToOneFile3() throws IOException {
+        final DataTransformer dataTransformer = new DataTransformer(",");
+        dataTransformer.writeOffersV2ToOneFile(new File(FILES_PATH_PACK3), new File(FILES_PATH_MERGED), true);
     }
 
     private static void getCommonMeta() {
